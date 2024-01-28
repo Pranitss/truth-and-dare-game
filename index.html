@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Truth or Dare Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    h1 {
+        margin-top: 50px;
+    }
+    #wheel {
+        width: 300px;
+        height: 300px;
+        border: 10px solid #333;
+        border-radius: 50%;
+        position: relative;
+        margin: 30px auto;
+        animation: spin 5s infinite linear;
+    }
+    #arrow {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid red;
+        position: absolute;
+        top: -10px;
+        left: calc(50% - 20px);
+        transform: rotate(0deg);
+        transform-origin: center bottom;
+        animation: rotateArrow 1s infinite linear;
+    }
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
+    @keyframes rotateArrow {
+        100% { transform: rotate(360deg); }
+    }
+    #output {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<h1>Truth or Dare</h1>
+<div id="wheel">
+    <div id="arrow"></div>
+</div>
+<div id="output"></div>
+
+<script>
+    var truths = [
+        "Have you ever cheated on a test?",
+        "What is your biggest fear?",
+        "What is your most embarrassing moment?",
+        "What is your guilty pleasure?",
+        "Have you ever lied to get out of trouble?"
+    ];
+
+    var dares = [
+        "Sing the chorus of your favorite song out loud.",
+        "Do 10 pushups.",
+        "Send a text to someone without looking at the keyboard.",
+        "Speak in an accent for the next 3 rounds.",
+        "Do your best impression of a celebrity."
+    ];
+
+    function spinWheel() {
+        var wheel = document.getElementById("wheel");
+        wheel.style.animation = "none"; // Stop the spinning animation
+        var arrow = document.getElementById("arrow");
+        var rotation = Math.floor(Math.random() * 360); // Random rotation angle
+        wheel.style.transform = "rotate(" + rotation + "deg)"; // Rotate the wheel
+        arrow.style.transform = "rotate(-" + rotation + "deg)"; // Counter-rotate the arrow
+        var action = rotation % 360 < 180 ? 'Truth' : 'Dare'; // Determine truth or dare based on rotation
+        var output = document.getElementById("output");
+        if (action === 'Truth') {
+            output.innerHTML = "<p>Truth: " + getRandomTruth() + "</p>";
+        } else {
+            output.innerHTML = "<p>Dare: " + getRandomDare() + "</p>";
+        }
+    }
+
+    function getRandomTruth() {
+        return truths[Math.floor(Math.random() * truths.length)];
+    }
+
+    function getRandomDare() {
+        return dares[Math.floor(Math.random() * dares.length)];
+    }
+</script>
+<button onclick="spinWheel()">Spin the Wheel</button>
+</body>
+</html>
